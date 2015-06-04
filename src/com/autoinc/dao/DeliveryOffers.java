@@ -1,0 +1,76 @@
+package com.autoinc.dao;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "deliveryoffers")
+public class DeliveryOffers implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue
+	@Column(name = "id",nullable=false)
+	private int id;
+	
+	@OneToOne
+    @JoinColumn(name = "supplier",nullable=false)
+	private SupplyLogistics supplier;
+	
+	@Column(name = "servicelevel",nullable=false)
+	private String serviceLevel;
+	  
+	@Column(name = "cost_per_unit",nullable=false)
+	private float costPerUnit;
+	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	
+
+	public SupplyLogistics getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(SupplyLogistics supplier) {
+		this.supplier = supplier;
+	}
+
+	public String getServiceLevel() {
+		return serviceLevel;
+	}
+
+	public void setServiceLevel(String serviceLevel) {
+		this.serviceLevel = serviceLevel;
+	}
+
+	public float getCostPerUnit() {
+		return costPerUnit;
+	}
+
+	public void setCostPerUnit(float costPerUnit) {
+		this.costPerUnit = costPerUnit;
+	}
+
+	
+	
+	
+
+}
