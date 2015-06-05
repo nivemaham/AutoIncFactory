@@ -35,26 +35,28 @@ public class AutoIncTester {
 //		productDetails.setMileage(800);
 //		productDetails.setType("aliance");
 		
-		AddressDAO addressDAO = new AddressDAO();
-		addressDAO.setAddLine1(" Champ de Mars ");
-		addressDAO.setAddLine2("5 Avenue Anatole France");
-		addressDAO.setCity("Paris ");
-		addressDAO.setCountry("France");
-		addressDAO.setZipcode("75007 ");
-		
-		WarehouseDAO wh = new WarehouseDAO();
-		wh.setAddress(addressDAO);
-		wh.setCapacity(100);
-		wh.setServiceUrl("http:localhost:otherurl");
-		
-		AutoIncAdminControler admincontroler = new AutoIncAdminControlerImpl();
-		admincontroler.addWareHouse(wh);
+//		AddressDAO addressDAO = new AddressDAO();
+//		addressDAO.setAddLine1(" Champ de Mars ");
+//		addressDAO.setAddLine2("5 Avenue Anatole France");
+//		addressDAO.setCity("Paris ");
+//		addressDAO.setCountry("France");
+//		addressDAO.setZipcode("75007 ");
+//		
+//		WarehouseDAO wh = new WarehouseDAO();
+//		wh.setAddress(addressDAO);
+//		wh.setCapacity(100);
+//		wh.setServiceUrl("http:localhost:otherurl");
+//		
+//		AutoIncAdminControler admincontroler = new AutoIncAdminControlerImpl();
+//		admincontroler.addWareHouse(wh);
 //		admincontroler.addProductDetails(productDetails);
 		
 		
 //		ProductDetails prodDetails = controler.viewProductDetails(2);
 //		System.out.println(prodDetails.getBodyStyle()+" "+prodDetails.getProduct().getBrand());
 
+		
+		controler.checkProductAvailablity(2, "France");
 	}
 
 }
