@@ -6,8 +6,8 @@ import com.autoinc.dao.WarehouseDAO;
 
 public interface AutoIncAdminControler {
 	void addProduct(Product newProduct);
-	
+
 	void addProductDetails(ProductDetailsDAO newProduct);
-	
+
 	void addWareHouse(WarehouseDAO warehouse);
 }
