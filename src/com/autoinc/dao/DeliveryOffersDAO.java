@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "deliveryoffers")
-public class DeliveryOffers implements Serializable {
+public class DeliveryOffersDAO implements Serializable {
 	
 	/**
 	 * 
@@ -25,13 +25,13 @@ public class DeliveryOffers implements Serializable {
 	private int id;
 	
 	@OneToOne
-    @JoinColumn(name = "supplier",nullable=false)
-	private SupplyLogistics supplier;
+    @JoinColumn(name = "supplierid")
+	private SupplyLogisticsDAO supplier;
 	
-	@Column(name = "servicelevel",nullable=false)
+	@Column(name = "servicelevel")
 	private String serviceLevel;
 	  
-	@Column(name = "cost_per_unit",nullable=false)
+	@Column(name = "costperunit")
 	private float costPerUnit;
 	
 	
@@ -45,11 +45,11 @@ public class DeliveryOffers implements Serializable {
 
 	
 
-	public SupplyLogistics getSupplier() {
+	public SupplyLogisticsDAO getSupplier() {
 		return supplier;
 	}
 
-	public void setSupplier(SupplyLogistics supplier) {
+	public void setSupplier(SupplyLogisticsDAO supplier) {
 		this.supplier = supplier;
 	}
 

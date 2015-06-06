@@ -3,8 +3,10 @@ package com.autoinc.businessControler;
 import org.hibernate.Session;
 
 import com.autoinc.bdo.Product;
+import com.autoinc.dao.DeliveryOffersDAO;
 import com.autoinc.dao.ProductDAO;
 import com.autoinc.dao.ProductDetailsDAO;
+import com.autoinc.dao.SupplyLogisticsDAO;
 import com.autoinc.dao.WarehouseDAO;
 import com.autoinc.util.HibernateUtil;
 import com.autoinc.util.HibernateUtilImpl;
@@ -39,6 +41,28 @@ public class AutoIncAdminControlerImpl implements AutoIncAdminControler{
 		session.beginTransaction();
 		session.saveOrUpdate(warehouse.getAddress());
 		session.saveOrUpdate(warehouse);
+		session.getTransaction().commit();
+		session.close();
+	}
+
+	@Override
+	public void addSuppliers(SupplyLogisticsDAO supplier) {
+		Session session = hibernateUtil.getSession();
+		session.beginTransaction();
+		session.saveOrUpdate(supplier.getLocation());
+		session.saveOrUpdate(supplier);
+		session.getTransaction().commit();
+		session.close();
+		
+	}
+
+	@Override
+	public void addDeliveryOffers(DeliveryOffersDAO deliveryOffers) {
+		
+		Session session = hibernateUtil.getSession();
+		session.beginTransaction();
+		session.saveOrUpdate(deliveryOffers.getSupplier());
+		session.saveOrUpdate(deliveryOffers);
 		session.getTransaction().commit();
 		session.close();
 	}

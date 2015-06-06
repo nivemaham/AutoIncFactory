@@ -18,11 +18,11 @@
 		<mapping class="com.autoinc.dao.AddressDAO" />
 		<mapping class="com.autoinc.dao.Country" />
 		<mapping class="com.autoinc.dao.Customer" />
-		<mapping class="com.autoinc.dao.DeliveryOffers" />
+		<mapping class="com.autoinc.dao.DeliveryOffersDAO" />
 		<mapping class="com.autoinc.dao.InventoryDAO" />
 		<!-- <mapping class="com.autoinc.dao.Product" /> -->
 		<mapping class="com.autoinc.dao.ProductDetailsDAO" />
-		<mapping class="com.autoinc.dao.SupplyLogistics" />
+		<mapping class="com.autoinc.dao.SupplyLogisticsDAO" />
 		<mapping class="com.autoinc.dao.UserDAO" />
 		<mapping class="com.autoinc.dao.WarehouseDAO" />
 

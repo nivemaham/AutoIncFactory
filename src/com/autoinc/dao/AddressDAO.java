@@ -32,6 +32,21 @@ public class AddressDAO implements Serializable {
 	@Column(name = "country")
 	private String country;
 
+	public AddressDAO() {
+	}
+	
+	
+	public AddressDAO(int id, String addLine1, String addLine2, String city,
+			String country, String zipcode) {
+		this.id = id;
+		this.addLine1 = addLine1;
+		this.addLine2 = addLine2;
+		this.city = city;
+		this.country = country;
+		this.zipcode = zipcode;
+	}
+
+
 	public int getId() {
 		return id;
 	}

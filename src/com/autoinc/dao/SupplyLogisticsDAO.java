@@ -11,8 +11,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "supplylogistics")
-public class SupplyLogistics implements Serializable{
+@Table(name = "supplier")
+public class SupplyLogisticsDAO implements Serializable{
 	
 	/**
 	 * 
@@ -30,6 +30,17 @@ public class SupplyLogistics implements Serializable{
 	
 	@Column(name = "serviceurl",nullable=false)
 	private String serviceUrl;
+	
+	@Column(name = "suppliername",nullable=false)
+	private String suppliername;
+
+	public String getSuppliername() {
+		return suppliername;
+	}
+
+	public void setSupplierName(String suppliername) {
+		this.suppliername = suppliername;
+	}
 
 	public int getId() {
 		return id;

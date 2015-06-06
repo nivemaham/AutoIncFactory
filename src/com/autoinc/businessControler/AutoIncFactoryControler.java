@@ -17,5 +17,6 @@ public interface AutoIncFactoryControler {
 	
 	boolean registerUser(User user);
 	
+	
 
 }
