@@ -24,14 +24,17 @@ CREATE TABLE IF NOT EXISTS `address` (
   `country` varchar(50) NOT NULL DEFAULT '0',
   `zipcode` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Dumping data for table autoinc.address: ~3 rows (approximately)
+-- Dumping data for table autoinc.address: ~6 rows (approximately)
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
 INSERT INTO `address` (`id`, `addline1`, `addline2`, `city`, `country`, `zipcode`) VALUES
 	(1, 'Hind Nagar', 'Hidcnd Nagar', 'Lucknow', '0', 'aaaaaaa'),
 	(2, 'arvis 22', 'Heraklion', 'Heraklion', 'Greece', '71305'),
-	(3, ' Champ de Mars ', '5 Avenue Anatole France', 'Paris ', 'France', '75007 ');
+	(3, ' Champ de Mars ', '5 Avenue Anatole France', 'Paris ', 'France', '75007 '),
+	(4, 'New supplier 1', '79, Main road', 'Stuttgart', 'Germany', '70569'),
+	(5, 'New supplier 1', '79, Main road', 'Stuttgart', 'Germany', '70569'),
+	(6, 'New supplier 1', '79, Fake street', 'Pisa', 'Italy', '70569');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 
 
@@ -74,14 +77,16 @@ CREATE TABLE IF NOT EXISTS `deliveryoffers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `supplierid` int(11) NOT NULL DEFAULT '0',
   `servicelevel` varchar(50) NOT NULL DEFAULT '0',
-  `cost per unit` float NOT NULL DEFAULT '0',
+  `costperunit` float NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `supplier-FK` (`supplierid`),
-  CONSTRAINT `supplier-FK` FOREIGN KEY (`supplierid`) REFERENCES `supplylogistics` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `supplier-FK` FOREIGN KEY (`supplierid`) REFERENCES `supplier` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table autoinc.deliveryoffers: ~0 rows (approximately)
+-- Dumping data for table autoinc.deliveryoffers: ~1 rows (approximately)
 /*!40000 ALTER TABLE `deliveryoffers` DISABLE KEYS */;
+INSERT INTO `deliveryoffers` (`id`, `supplierid`, `servicelevel`, `costperunit`) VALUES
+	(1, 3, 'HOME_DELIVERY', 50);
 /*!40000 ALTER TABLE `deliveryoffers` ENABLE KEYS */;
 
 
@@ -121,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `order` (
   KEY `customer-fk` (`customerid`),
   KEY `product-fk` (`productid`),
   KEY `sup-fk` (`supplier`),
-  CONSTRAINT `sup-fk` FOREIGN KEY (`supplier`) REFERENCES `supplylogistics` (`id`),
+  CONSTRAINT `sup-fk` FOREIGN KEY (`supplier`) REFERENCES `supplier` (`id`),
   CONSTRAINT `customer-fk` FOREIGN KEY (`customerid`) REFERENCES `customer` (`id`),
   CONSTRAINT `product-fk` FOREIGN KEY (`productid`) REFERENCES `product` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -187,19 +192,24 @@ CREATE TABLE IF NOT EXISTS `shoppingcart` (
 /*!40000 ALTER TABLE `shoppingcart` ENABLE KEYS */;
 
 
--- Dumping structure for table autoinc.supplylogistics
-CREATE TABLE IF NOT EXISTS `supplylogistics` (
+-- Dumping structure for table autoinc.supplier
+CREATE TABLE IF NOT EXISTS `supplier` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `location` int(11) NOT NULL,
   `serviceurl` varchar(100) NOT NULL,
+  `suppliername` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `location_FK` (`location`),
   CONSTRAINT `location_FK` FOREIGN KEY (`location`) REFERENCES `address` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table autoinc.supplylogistics: ~0 rows (approximately)
-/*!40000 ALTER TABLE `supplylogistics` DISABLE KEYS */;
-/*!40000 ALTER TABLE `supplylogistics` ENABLE KEYS */;
+-- Dumping data for table autoinc.supplier: ~3 rows (approximately)
+/*!40000 ALTER TABLE `supplier` DISABLE KEYS */;
+INSERT INTO `supplier` (`id`, `location`, `serviceurl`, `suppliername`) VALUES
+	(1, 4, 'someUrl', NULL),
+	(2, 5, 'someUrl', 'FedEx'),
+	(3, 6, 'someUrl', 'edEx');
+/*!40000 ALTER TABLE `supplier` ENABLE KEYS */;
 
 
 -- Dumping structure for table autoinc.transportationstatus
