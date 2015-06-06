@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 @Entity
 @Table(name = "customer")
-public class Customer implements Serializable {
+public class CustomerDAO implements Serializable {
 	
 
 

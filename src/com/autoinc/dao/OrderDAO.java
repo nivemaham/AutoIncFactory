@@ -28,7 +28,7 @@ public class OrderDAO implements Serializable{
 
 	@OneToOne
     @JoinColumn(name = "customerid")
-	private Customer customer;
+	private CustomerDAO customer;
 	
 	@OneToOne
     @JoinColumn(name = "productid")
@@ -52,11 +52,11 @@ public class OrderDAO implements Serializable{
 		this.id = id;
 	}
 
-	public Customer getCustomer() {
+	public CustomerDAO getCustomer() {
 		return customer;
 	}
 
-	public void setCustomer(Customer customer) {
+	public void setCustomer(CustomerDAO customer) {
 		this.customer = customer;
 	}
 
