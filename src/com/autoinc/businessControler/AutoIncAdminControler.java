@@ -17,5 +17,6 @@ public interface AutoIncAdminControler {
 
 	void addSuppliers(SupplyLogisticsDAO supplier);
 	
-	void addDeliveryOffers(DeliveryOffersDAO deliveryOffers);
+	void addDeliveryOffers(String servicelevel, int supplierId, float costPerUnit);
+	
 }

@@ -57,10 +57,20 @@ public class AutoIncAdminControlerImpl implements AutoIncAdminControler{
 	}
 
 	@Override
-	public void addDeliveryOffers(DeliveryOffersDAO deliveryOffers) {
+	public void addDeliveryOffers(String servicelevel, int supplierId, float costPerUnit) {
+		
+		
+		
+		DeliveryOffersDAO deliveryOffers = new DeliveryOffersDAO();
 		
 		Session session = hibernateUtil.getSession();
 		session.beginTransaction();
+		SupplyLogisticsDAO supplier = (SupplyLogisticsDAO) session.get(
+				SupplyLogisticsDAO.class, supplierId);
+		deliveryOffers.setSupplier(supplier);
+		deliveryOffers.setCostPerUnit(costPerUnit);
+		deliveryOffers.setServiceLevel(servicelevel);
+		
 		session.saveOrUpdate(deliveryOffers.getSupplier());
 		session.saveOrUpdate(deliveryOffers);
 		session.getTransaction().commit();

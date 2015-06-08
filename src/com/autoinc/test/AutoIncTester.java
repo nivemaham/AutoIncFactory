@@ -1,9 +1,15 @@
 package com.autoinc.test;
 
+import java.util.List;
+
+import com.autoinc.bdo.User;
 import com.autoinc.businessControler.AutoIncAdminControler;
 import com.autoinc.businessControler.AutoIncAdminControlerImpl;
+import com.autoinc.businessControler.AutoIncFactoryControler;
+import com.autoinc.businessControler.AutoIncFactoryControlerImpl;
 import com.autoinc.dao.AddressDAO;
 import com.autoinc.dao.DeliveryOffersDAO;
+import com.autoinc.dao.PurchaseDAO;
 import com.autoinc.dao.SupplyLogisticsDAO;
 
 public class AutoIncTester {
@@ -18,8 +24,26 @@ public class AutoIncTester {
 //		product.setPrice(25000);
 //		product.setImageurl("imageUrl");
 ////		
-//		AutoIncFactoryControler controler = new AutoIncFactoryControlerImpl();
+		AutoIncFactoryControler controler = new AutoIncFactoryControlerImpl();
+		
+//		User user = new User();
+//		user.setEmailAddress("genta@gmail.com");
+//		user.setPassword("blahbla");
+//		user.setUserName("genta");
+//		user.setRole(User.ROLES.CUSTOMER.toString());
+		
+//		controler.registerUser(user);
+//		controler.registerCustomer(2, "Genta roko", 777777777, "Heraklion", "Greece", "70523", "Main road", null);
+//		controler.registerCustomer(userId, name, contactNo, city, country, zipcode, addLine1, addLine2)
+//		controler.findCheapestSupplier(AutoIncAdminControler.DELIVERY_SERVICE_LEVEL.HOME_DELIVERY.toString());
 //		
+		
+		
+		List<PurchaseDAO> vieworder = controler.viewOrders();
+		
+//		System.out.println(vieworder.size());
+		
+		controler.createOrder(2, 3, 2,25050.5 );
 //		controler.addProduct(product);
 //		List<Product> products = controler.showProducts();
 //		System.out.println(products.get(0).toString());
@@ -48,19 +72,20 @@ public class AutoIncTester {
 //		admincontroler.addProductDetails(productDetails);
 		
 		SupplyLogisticsDAO supplier = new SupplyLogisticsDAO();
-		supplier.setLocation(new AddressDAO(6, "New supplier 1", "79, Fake street", "Pisa", "Italy", "70569"));
+		supplier.setLocation(new AddressDAO(5, "New supplier 1", "79, Fake street", "Pisa", "Italy", "70569"));
 		supplier.setServiceUrl("someUrl");
 		supplier.setSupplierName("edEx");
-		supplier.setId(3);
-		
-//		admincontroler.addSuppliers(supplier);
-		
-		DeliveryOffersDAO deliveryOffer = new DeliveryOffersDAO();
-		deliveryOffer.setSupplier(supplier);
-		deliveryOffer.setServiceLevel(AutoIncAdminControler.DELIVERY_SERVICE_LEVEL.HOME_DELIVERY.name());
-		deliveryOffer.setCostPerUnit(50.0f);
-
-		admincontroler.addDeliveryOffers(deliveryOffer);
+		supplier.setId(5);
+//		
+////		admincontroler.addSuppliers(supplier);
+//		
+//		DeliveryOffersDAO deliveryOffer = new DeliveryOffersDAO();
+//		deliveryOffer.setSupplier(supplier);
+//		deliveryOffer.setServiceLevel(AutoIncAdminControler.DELIVERY_SERVICE_LEVEL.CENTRALISED_DELIVERY.name());
+//		deliveryOffer.setCostPerUnit(30.0f);
+//
+//		admincontroler.addDeliveryOffers(AutoIncAdminControler.DELIVERY_SERVICE_LEVEL.CENTRALISED_DELIVERY.toString(),
+//				3, 80.0f);
 		
 //		ProductDetails prodDetails = controler.viewProductDetails(2);
 //		System.out.println(prodDetails.getBodyStyle()+" "+prodDetails.getProduct().getBrand());

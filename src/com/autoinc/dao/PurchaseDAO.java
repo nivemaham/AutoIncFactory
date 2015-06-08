@@ -11,8 +11,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "order")
-public class OrderDAO implements Serializable{
+@Table(name = "purchase")
+public class PurchaseDAO implements Serializable{
 	
 	
 

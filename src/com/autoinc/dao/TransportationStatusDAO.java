@@ -27,7 +27,7 @@ public class TransportationStatusDAO implements Serializable{
 	
 	@OneToOne
     @JoinColumn(name = "orderId")
-	private OrderDAO orderDAO;
+	private PurchaseDAO orderDAO;
 	
 	@Column(name = "shippingstatus")
 	private int shippingStatus;
@@ -40,11 +40,11 @@ public class TransportationStatusDAO implements Serializable{
 		this.id = id;
 	}
 
-	public OrderDAO getOrderDAO() {
+	public PurchaseDAO getOrderDAO() {
 		return orderDAO;
 	}
 
-	public void setOrderDAO(OrderDAO orderDAO) {
+	public void setOrderDAO(PurchaseDAO orderDAO) {
 		this.orderDAO = orderDAO;
 	}
 

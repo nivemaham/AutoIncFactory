@@ -15,8 +15,11 @@ import com.autoinc.bdo.User;
 import com.autoinc.businessControler.AutoIncAdminControler.DELIVERY_SERVICE_LEVEL;
 import com.autoinc.dao.AddressDAO;
 import com.autoinc.dao.CustomerDAO;
+import com.autoinc.dao.DeliveryOffersDAO;
+import com.autoinc.dao.PurchaseDAO;
 import com.autoinc.dao.ProductDAO;
 import com.autoinc.dao.ProductDetailsDAO;
+import com.autoinc.dao.SupplyLogisticsDAO;
 import com.autoinc.dao.UserDAO;
 import com.autoinc.dao.WarehouseDAO;
 import com.autoinc.util.HibernateUtil;
@@ -66,21 +69,22 @@ public class AutoIncFactoryControlerImpl implements AutoIncFactoryControler {
 	public boolean registerUser(User user) {
 		Session session = hibernateUtil.getSession();
 		session.beginTransaction();
-		session.saveOrUpdate(user);
+		session.saveOrUpdate(new UserDAO(user));
 		session.getTransaction().commit();
 		session.close();
-		
+
 		return true;
 
 	}
 
 	@Override
-	public AvailabilityResponse checkProductAvailablity(int productId, String deliveryLocation) {
-		
+	public AvailabilityResponse checkProductAvailablity(int productId,
+			String deliveryLocation) {
+
 		WarehouseDAO warehouse = findClosestWarehouse(deliveryLocation);
-		
-		WarehouseDAO alternativewarehouse =findAlternativeWarehouse(warehouse);
-		
+
+		WarehouseDAO alternativewarehouse = findAlternativeWarehouse(warehouse);
+
 		System.out.println(alternativewarehouse.getAddress().getCountry());
 		return null;
 	}
@@ -103,97 +107,120 @@ public class AutoIncFactoryControlerImpl implements AutoIncFactoryControler {
 	private WarehouseDAO findClosestWarehouse(String deliveryLocation) {
 		Session session = hibernateUtil.getSession();
 		session.beginTransaction();
-		
+
 		String hql = "SELECT WH FROM AddressDAO E, WarehouseDAO WH WHERE WH.address = E.id and E.country=:addCountry";
 		Query query = session.createQuery(hql);
 		query.setParameter("addCountry", deliveryLocation.trim());
-		WarehouseDAO results = (WarehouseDAO)query.uniqueResult();
+		WarehouseDAO results = (WarehouseDAO) query.uniqueResult();
 		session.getTransaction().commit();
 		session.close();
-		
+
 		return results;
-		
+
 	}
 
 	@Override
-	public CustomerDAO registerCustomer(int userId, String name, int contactNo,String city,
-			String country, String zipcode, String addLine1,String addLine2) {
-		
-		// TODO Auto-generated method stub
-		
-		AutoIncFactoryControler autoInc=new AutoIncFactoryControlerImpl();
-		AddressDAO add =autoInc.saveAddress(city, country, zipcode, addLine1,addLine2);
-		
+	public CustomerDAO registerCustomer(int userId, String name, int contactNo,
+			String city, String country, String zipcode, String addLine1,
+			String addLine2) {
+
 		Session session = hibernateUtil.getSession();
 		session.beginTransaction();
-		Query query = session.createQuery("from UserDAO where id=? ");
-		query.setInteger(0, userId);
-		Object queryRes = query.uniqueResult();
-		UserDAO user = (UserDAO)queryRes;
+		
+		UserDAO userObj = (UserDAO) session.get(
+				UserDAO.class, userId);
+		AddressDAO address = new AddressDAO();
+
+		address.setAddLine1(addLine1);
+		address.setAddLine2(addLine2);
+		address.setCity(city);
+		address.setCountry(country);
+		address.setZipcode(zipcode);
+		
+		CustomerDAO customer = new CustomerDAO();
+		customer.setUser(userObj);
+		customer.setName(name);
+		customer.setAddress(address);
+		customer.setContactNumber(contactNo);
+		
+		session.save(address);
+		session.save(customer);
 		session.getTransaction().commit();
 
-
-		session.beginTransaction();
-		CustomerDAO cust = new CustomerDAO();
-		cust.setUser(user);
-		cust.setName(name);
-		cust.setAddress(add);
-		cust.setContactNumber(contactNo);
-		session.save(cust);
-		session.getTransaction().commit();
-		
-		return cust;
+		return customer;
 	}
-
-	@Override
-	public AddressDAO saveAddress(String city, String country, String zipcode,
-			String addLine1,String addLine2) {
-		// TODO Auto-generated method stub
-		Session session = hibernateUtil.getSession();
-
-		AddressDAO a = new AddressDAO();
-		/*	int i = 0;
-		for (String addline : address) {
-			if (i == 0) {
-				a.setAddLine1(addline);
-				i++;
-			} else {
-				a.setAddLine2(addline);
-			}
-		}*/
-		
-		a.setAddLine1(addLine1);
-		a.setAddLine2(addLine2);
-		a.setCity(city);
-		a.setCountry(country);
-		a.setZipcode(zipcode);
-		
-
-		try {
-			session.beginTransaction();
-			session.save(a);
-			session.getTransaction().commit();
-
-		}
-
-		catch (HibernateException e) {
-
-			e.printStackTrace();
-			session.getTransaction().rollback();
-
-		}
-
-		return a;
-	}
-
+	
 	@Override
 	public List<String> showTransportationTypes() {
 		// TODO Auto-generated method stub
-		List<String> transportationTypes= new ArrayList<String>();
-		for( DELIVERY_SERVICE_LEVEL type : AutoIncAdminControler.DELIVERY_SERVICE_LEVEL.values())
-		{
+		List<String> transportationTypes = new ArrayList<String>();
+		for (DELIVERY_SERVICE_LEVEL type : AutoIncAdminControler.DELIVERY_SERVICE_LEVEL
+				.values()) {
 			transportationTypes.add(type.toString());
 		}
 		return transportationTypes;
+	}
+
+	@Override
+	public DeliveryOffersDAO findCheapestSupplier(String preference) {
+
+		Session session = hibernateUtil.getSession();
+		session.beginTransaction();
+
+		String hql = "SELECT SUP FROM DeliveryOffersDAO SUP "
+				+ "group by SUP.serviceLevel having SUP.serviceLevel in (:preference) and min(SUP.costPerUnit)<10000.0";
+		Query query = session.createQuery(hql);
+		query.setParameter("preference", preference.trim());
+		DeliveryOffersDAO results = (DeliveryOffersDAO) query.uniqueResult();
+		// System.out.println(" size "+results.size());
+		session.getTransaction().commit();
+		session.close();
+
+		return results;
+	}
+
+	@Override
+	public PurchaseDAO createOrder(int customerId, int productId, int supplierId,
+			double totalCost) {
+		PurchaseDAO newOrder = new PurchaseDAO();
+
+		Session session = hibernateUtil.getSession();
+		session.beginTransaction();
+
+		CustomerDAO customer = (CustomerDAO) session.get(CustomerDAO.class,
+				customerId);
+
+		ProductDAO product = (ProductDAO) session.get(ProductDAO.class,
+				productId);
+
+		SupplyLogisticsDAO supplierObj = (SupplyLogisticsDAO) session.get(
+				SupplyLogisticsDAO.class, supplierId);
+
+		newOrder.setCustomer(customer);
+		newOrder.setProduct(product);
+		newOrder.setSupplier(supplierObj);
+		newOrder.setTotalCost(totalCost);
+		newOrder.setOrderStatus(AutoIncFactoryControler.ORDER_STATUS.STARTED
+				.toString());
+
+		session.save(newOrder);
+		session.getTransaction().commit();
+		session.close();
+
+		return null;
+	}
+	
+	public List<PurchaseDAO> viewOrders(){
+		Session session = hibernateUtil.getSession();
+		session.beginTransaction();
+
+		@SuppressWarnings("unchecked")
+		List<PurchaseDAO> listProd = (List<PurchaseDAO>) session
+				.createCriteria(PurchaseDAO.class)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		session.getTransaction().commit();
+		session.close();
+		
+		return listProd;
 	}
 }

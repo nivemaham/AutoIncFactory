@@ -1,6 +1,8 @@
 package com.autoinc.bdo;
 
 public class User {
+	
+	public enum ROLES{ADMIN, CUSTOMER}
 
 	private int id;
 

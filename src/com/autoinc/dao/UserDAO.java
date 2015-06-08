@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.autoinc.bdo.User;
+
 @Entity
 @Table(name = "user")
 public class UserDAO implements Serializable{
@@ -33,7 +35,18 @@ public class UserDAO implements Serializable{
 	
 	@Column(name = "password")
 	private String password;
+	
+	public UserDAO() {
+	}
 
+	public UserDAO(User user)
+	{
+		this.emailAddress = user.getEmailAddress();
+		this.password = user.getPassword();
+		this.id = user.getId();
+		this.role = user.getRole();
+		this.userName = user.getUserName();
+	}
 	public int getId() {
 		return id;
 	}

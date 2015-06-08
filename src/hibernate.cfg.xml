@@ -17,9 +17,10 @@
 		<mapping class="com.autoinc.dao.ProductDAO" />
 		<mapping class="com.autoinc.dao.AddressDAO" />
 		<mapping class="com.autoinc.dao.Country" />
-		<mapping class="com.autoinc.dao.Customer" />
+		<mapping class="com.autoinc.dao.CustomerDAO" />
 		<mapping class="com.autoinc.dao.DeliveryOffersDAO" />
 		<mapping class="com.autoinc.dao.InventoryDAO" />
+		<mapping class="com.autoinc.dao.PurchaseDAO" />
 		<!-- <mapping class="com.autoinc.dao.Product" /> -->
 		<mapping class="com.autoinc.dao.ProductDetailsDAO" />
 		<mapping class="com.autoinc.dao.SupplyLogisticsDAO" />
